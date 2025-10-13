@@ -34,6 +34,8 @@ int main (){
 	
 	int aux = 1;
 	
+	int sentido = 1;
+	
 	float tempo = 0.0f;
 	
 	float mover = 0.0f;
@@ -53,6 +55,17 @@ int main (){
 			if(e.type == SDL_QUIT){
 				aux = 0;
 			}
+		
+			else if(e.type == SDL_KEYDOWN){
+				switch(e.key.keysym.sym){
+					case SDLK_UP: break;
+					case SDLK_DOWN: break;
+					case SDLK_RIGHT:  sentido = 1;
+							  break;
+					case SDLK_LEFT:   sentido = 0; 
+							  break;
+				}
+			}
 		}
 			
 		mover = 10 * (1 - ms1) / 1000.0f;
@@ -65,25 +78,52 @@ int main (){
 		
 		SDL_RenderPresent(r);
 		
-		if(fx < 100 && fy == 20){
-			fx += mover;
-			
-			if(fx > 100) fx = 100;
-		}
+		if(sentido > 0){
+			if(fx < 100 && fy == 20){
+				fx += mover;
+				
+				if(fx > 100) fx = 100;
+			}
 		
-		else if(fx == 100 && fy < 100){
-			fy += mover;
-			
-			if(fy > 100) fy = 100;
-		}
+			else if(fx == 100 && fy < 100){
+				fy += mover;
+				
+				if(fy > 100) fy = 100;
+			}
 		
-		else if(fx > 20 && fy == 100){
-			fx -= mover;
+			else if(fx > 20 && fy == 100){
+				fx -= mover;
+			}
+		
+			else{
+				fy -= mover;
+				if(fy < 20) fy = 20;
+			}
+			
 		}
 		
 		else{
-			fy -= mover;
-			if(fy < 20) fy = 20;
+		
+			if(fx > 20 && fy == 20){
+				fx -= mover;
+				
+				if(fx < 20) fx = 20;
+			}
+		
+			else if(fx == 20 && fy < 100){
+				fy += mover;
+				
+				if(fy > 100) fy = 100;
+			}
+		
+			else if(fx < 100 && fy == 100){
+				fx += mover;
+			}
+		
+			else{
+				fy -= mover;
+				if(fy < 20) fy = 20;
+			}
 		}
 		
 		re.x = (int)fx;
