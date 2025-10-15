@@ -68,7 +68,6 @@ int main (){
 	SDL_Rect re = {150, 5, 100, 20};
 	
 	for(i = 0; i < 3; i++){
-		r[i].x = 30;
 		r[i].w = 10;
 		r[i].h = 10;
 	}
@@ -86,8 +85,35 @@ int main (){
 	SDL_Texture* txt = NULL;
 	SDL_Surface* sfc = NULL;
 	
+	int fim = 1;
+	
+	int ms2 = 1000;
+	
+	SDL_Event evt;
+	
 	while(rodar){
 		
+		if(evt.type == SDL_QUIT){
+			break;
+		}
+		
+		for(i = 0; i < 3; i++){
+			chegada[i] = 0;
+		}
+	
+		int primeiro = 0;
+		
+		for(i = 0; i < 3; i++){
+			r[i].x = 30;
+		}
+		
+		r[0].y = 30;
+		r[1].y = 50;
+		r[2].y = 70;
+		
+		fim = 1;
+		
+		while(fim){	
 		SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 		SDL_RenderClear(ren);
 		
@@ -128,6 +154,7 @@ int main (){
 		}
 
 		else if(evt.type == SDL_QUIT){
+			rodar = 0;
 			break;
 		}
 		
@@ -168,11 +195,18 @@ int main (){
 			SDL_FreeSurface(sfc);
 				
 			SDL_RenderCopy(ren, txt, NULL, &re);
+			
+			ms2 = 5000;
+			fim = 0;
 		}
 		
 		SDL_RenderPresent(ren);
+		
+		if(fim == 0){
+			AUX_WaitEventTimeout(&evt, &ms2);
+		}
 	}
-	
+	}
 	SDL_DestroyTexture(txt);
 	TTF_CloseFont(fnt);
 	TTF_Quit();
