@@ -120,8 +120,6 @@ int main (){
 		SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
 		SDL_RenderFillRect(ren, &rc);
 		
-		SDL_Event evt;
-		
 		ms1 = 10;
 		
 		AUX_WaitEventTimeout(&evt, &ms1);
